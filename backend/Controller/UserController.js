@@ -1,4 +1,5 @@
 const User = require('../models/UserModel.js')
+const sendToken = require('../utils/SendToken.js')
 
 // Register a user
 exports.createUser = async(req,res,next) => {
@@ -15,11 +16,7 @@ exports.createUser = async(req,res,next) => {
             }
         })
 
-        const token = user.getJWTtoken();
-        res.status(201).json({
-            success: true,
-            token
-        })
+        sendToken(user, 201, res)
     } catch (error) {
         return next(error)
     }
@@ -59,14 +56,26 @@ exports.loginUser = async(req,res,next) => {
             })
         }
 
-        const token = user.getJWTtoken();
-
-        res.status(200).json({
-            success:true,
-            token
-        })
+        sendToken(user, 201, res)
     } catch (error) {
         return next(error)
     }
     
+}
+
+//Logout User
+exports.logoutUser = async(req,res,next) => {
+    try {
+        res.cookie("token", null, {
+            expires: new Date(Date.now()),
+            httpOnly:true
+        })
+
+        res.status(200).json({
+            success:true,
+            message: "Logged out successfully"
+        })
+    } catch (error) {
+        return next(error)
+    }
 }
