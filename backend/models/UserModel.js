@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const JWTtoken = require('jsonwebtoken')
-const cyrpto = require('crypto')
+const crypto = require('crypto')
 
 const userschema = new mongoose.Schema({
     name: {
@@ -66,7 +66,7 @@ userschema.methods.comparePasswords = async function(enteredPassword)
 }
 
 //generating reset Token using cyrpto (READ ABOUT IT)
-userschema.getResetToekn = function()
+userschema.methods.getResetToken = function()
 {
     const resetToken = crypto.randomBytes(20).toString("hex")
 
