@@ -26,7 +26,7 @@ const productSchema = new mongoose.Schema({
             }
         }
     ],
-    rating: {
+    ratings: {
         type:Number,
         default:0
     },
@@ -39,22 +39,27 @@ const productSchema = new mongoose.Schema({
         required:[true,"Please enter a stock number"],
         maxLength:[4, "Stock number cannot be greater than 4 digits"]
     },
-    // reviews: [
-    //     {
-    //         name:{
-    //             type:String,
-    //             required:[true, "Please enter name"]
-    //         },
-    //         rating: {
-    //             type:Number,
-    //             default:0
-    //         },
-    //         comment: {
-    //             type: String,
-    //             required: true
-    //         }
-    //     }
-    // ],
+    reviews: [
+        {
+            user:{
+                type: mongoose.Schema.ObjectId,
+                ref: "User",
+                required: true,
+            },
+            name:{
+                type:String,
+                required:[true, "Please enter name"]
+            },
+            rating: {
+                type:Number,
+                default:0
+            },
+            comment: {
+                type: String,
+                required: true
+            }
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now

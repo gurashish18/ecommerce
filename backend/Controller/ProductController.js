@@ -96,3 +96,70 @@ exports.getProductDetails = async(req,res,next) => {
         return next(error)
     }
 }
+
+// Create/Update Product Review
+// Means if a user has already reviewed a particular product, the review will be updated otherwise it will be cerated
+exports.createReview = async(req,res,next)=>{
+    const review = {
+        user: req.user._id,
+        name:req.user.name,
+        rating:req.body.rating,
+        comment:req.body.comment
+    }
+
+    const product = await Product.findById(req.body.productId);
+
+    // checking if the user has already reviewed that product
+    const isReviewed = product.reviews.find((rev)=>rev.user.toString() === req.user._id.toString())
+
+    if(isReviewed)
+    {
+        // if already reviewd update it
+        product.reviews.find((rev)=>{
+            if(rev.user.toString()===req.user._id.toString())
+            {
+                rev.rating = req.body.rating;
+                rev.comment = req.body.comment;
+            }
+        })
+    }
+    else
+    {
+        // if not reviewed create it
+        product.reviews.push(review);
+    }
+
+    // Now update the overall ratings of a product;
+    let avg = 0;
+    product.reviews.forEach((rev)=>{
+        avg+=rev.rating
+    })
+    product.ratings = avg/product.reviews.length
+
+    await product.save({validateBeforeSave:true})
+
+    res.status(200).json({
+        success:true
+    })
+}
+
+// Get all Product reviews
+exports.getAllReviews = async(req,res,next)=>{
+    const product = await Product.findById(req.query.productId);
+
+    if(!product)
+    {
+        res.status(400).json({
+            success:false,
+            message: "No product found with that id"
+        })
+        return;
+    }
+
+    res.status(200).json({
+        success:true,
+        reviews: product.reviews
+    })
+}
+
+// Delete review
