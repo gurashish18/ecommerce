@@ -2,6 +2,7 @@ const User = require('../models/UserModel.js')
 const sendToken = require('../utils/SendToken.js')
 const sendEmail = require('../utils/SendEmail.js')
 const crypto = require('crypto')
+const { json } = require('body-parser')
 
 // Register a user
 exports.createUser = async(req,res,next) => {
@@ -176,4 +177,139 @@ exports.resetPassword = async(req,res,next) => {
     await user.save()
 
     sendToken(user, 200, res);
+}
+
+// Get user's details
+exports.getUserDetails = async(req,res,next) => {
+    const user = await User.findById(req.user.id);
+
+    res.status(200).json({
+        success:true,
+        user
+    })
+}
+
+//change user's password
+exports.changePassword = async(req,res,next) => {
+    // we will have 3 fields
+    // Oldpassword
+    // Newpassword
+    // Confirmpassword
+    const user = await User.findById(req.user.id).select("+password");
+    console.log(user)
+
+    const isPasswordMatch = await user.comparePasswords(req.body.oldpassword);
+
+    if(!isPasswordMatch)
+    {
+        // oldpassword doesn't match
+        res.status(401).json({
+            success:false,
+            message: "Old password doesn't match"
+        })
+        return;
+    }
+
+    // if newpassword doesn't match confirm apssword
+    if(req.body.newpassword !== req.body.confirmpassword)
+    {
+        res.status(401).json({
+            success:false,
+            message: "Passwords doesn't match"
+        })
+        return;
+    }
+
+    // all passwords match now update
+    user.password = req.body.newpassword;
+    await user.save();
+
+    sendToken(user, 200, res);
+}
+
+//Update user's profile
+exports.updateProfile = async(req,res,next) => {
+
+    const newuserdata = {
+        name: req.body.name,
+        email: req.body.email
+    }
+
+    const user = await User.findByIdAndUpdate(req.user.id, newuserdata, {
+        new: true,
+        runValidators: true,
+    })
+
+    res.status(201).json({
+        success:true,
+        user
+    })
+}
+
+// Get all users (ADMIN)
+exports.getAllUsers = async(req,res,next)=>{
+    const users = await User.find();
+
+    res.status(200).json({
+        success: true,
+        users
+    })
+}
+
+// Get single user (ADMIN)
+exports.getSingleUser = async(req,res,next)=>{
+    const user = await User.findById(req.params.id);
+
+    if(!user)
+    {
+        res.status(400).json({
+            success:false,
+            message: "No user with that id"
+        })
+        return;
+    }
+
+    res.status(200).json({
+        success: true,
+        user
+    })
+}
+
+// Update User Role (ADMIN)
+exports.updateRole = async(req,res,next) => {
+
+    const newuserdata = {
+        role: req.body.role
+    }
+
+    const user = await User.findByIdAndUpdate(req.params.id, newuserdata, {
+        new: true,
+        runValidators: true,
+    })
+
+    res.status(201).json({
+        success:true,
+        user
+    })
+}
+
+// Delete User (AADMIN)
+exports.deleteUser = async(req,res,next) => {
+    const user = await User.findById(req.params.id);
+
+    if(!user)
+    {
+        res.status(400).json({
+            success: false,
+            message: "User not found with that id"
+        })
+        return;
+    }
+
+    await user.remove();
+
+    res.status(200).json({
+        success: false,
+        message: "User deleted successfully"
+    })
 }
