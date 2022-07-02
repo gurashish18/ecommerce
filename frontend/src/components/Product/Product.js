@@ -5,8 +5,8 @@ import "./Product.css";
 
 function Product({ product }) {
   return (
-    <Link className="product-card" to={product.productId}>
-      <img src={product.image} alt="product" />
+    <Link className="product-card" to={product._id}>
+      <img src={product.images[0].url} alt="product" />
       <h3>{product.name}</h3>
       <div className="rating">
         <StarRatings
@@ -16,9 +16,9 @@ function Product({ product }) {
           name="rating"
           starDimension="30px"
         />
-        <span>(250 reviews)</span>
+        <span>({product.reviews.length} reviews)</span>
       </div>
-      <p>₹ {product.price}</p>
+      <p>₹{product.price}</p>
     </Link>
   );
 }
