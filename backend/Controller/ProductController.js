@@ -88,6 +88,7 @@ exports.getProductDetails = async (req, res, next) => {
         success: false,
         message: "No product found with that id",
       });
+      return;
     }
 
     res.status(200).json({
