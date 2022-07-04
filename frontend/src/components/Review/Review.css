@@ -1,0 +1,16 @@
+.user-review {
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+.user-review-details {
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.user-review-details h1 {
+  font-size: 1.5rem;
+}
