@@ -19,6 +19,7 @@ exports.createProduct = async (req, res, next) => {
 exports.getAllProducts = async (req, res, next) => {
   try {
     const resultsperpage = 8;
+    const productsCount = await Product.countDocuments();
     const apifeatures = new Apifeatures(Product.find(), req.query)
       .search()
       .filter()
@@ -27,6 +28,8 @@ exports.getAllProducts = async (req, res, next) => {
     res.status(200).json({
       success: true,
       products,
+      resultsperpage,
+      productsCount,
     });
   } catch (error) {
     return next(error);
