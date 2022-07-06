@@ -6,8 +6,12 @@
   text-decoration: none;
   display: flex;
   flex-direction: column;
-  max-width: 300px;
   transition: transform 0.5s;
+}
+.product-card img {
+  height: 300px;
+  width: 300px;
+  overflow: hidden;
 }
 .product-card:hover {
   transform: scale(1.1);

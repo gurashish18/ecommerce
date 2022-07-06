@@ -1,7 +1,30 @@
+.products-main-container {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+}
+.products-container h1 {
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
 .paginationBox {
   display: flex;
   justify-content: center;
   margin: 6vmax;
+}
+
+.price-filter {
+  width: 30%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .pagination {
