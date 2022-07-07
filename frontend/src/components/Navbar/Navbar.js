@@ -88,7 +88,7 @@ const Navbar = () => {
           <li className="nav_item">
             <Link
               exact
-              to="/user"
+              to="/auth"
               activeClassName="active"
               className="nav_links"
               onClick={handleClick}
