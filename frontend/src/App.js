@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
 import Products from "./components/Products/Products";
 import Search from "./components/Search/Search";
-import LoginSignup from "./components/LoginSignup/LoginSignup";
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
           <Route exact path="/products" element={<Products />} />
           <Route path="/products/:keyword" element={<Products />} />
           <Route exact path="/search" element={<Search />} />
-          <Route exact path="/auth" element={<LoginSignup />} />
         </Routes>
         <Footer />
       </Router>
