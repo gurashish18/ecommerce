@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
@@ -7,8 +8,13 @@ import ProductDetails from "./components/ProductDetails/ProductDetails";
 import Products from "./components/Products/Products";
 import Search from "./components/Search/Search";
 import LoginSignup from "./components/LoginSignup/LoginSignup";
+import store from "./store";
+import { loadUser } from "./actions/UserAction";
 
 function App() {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
   return (
     <>
       <Router>
