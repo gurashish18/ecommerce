@@ -4,7 +4,9 @@ import { ImCross } from "react-icons/im";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BiSearchAlt, BiUser } from "react-icons/bi";
 import { BsCartCheck } from "react-icons/bs";
+import { MdLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [click, setclick] = useState(false);

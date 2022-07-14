@@ -10,25 +10,35 @@ import Search from "./components/Search/Search";
 import LoginSignup from "./components/LoginSignup/LoginSignup";
 import store from "./store";
 import { loadUser } from "./actions/UserAction";
+import { useSelector } from "react-redux";
+import UserOptions from "./components/UserOptions/UserOptions";
 
 function App() {
+  const { loading, isAuthenticated, user } = useSelector((state) => state.user);
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
   return (
     <>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/product/:id" element={<ProductDetails />} />
-          <Route exact path="/products" element={<Products />} />
-          <Route path="/products/:keyword" element={<Products />} />
-          <Route exact path="/search" element={<Search />} />
-          <Route exact path="/auth" element={<LoginSignup />} />
-        </Routes>
-        <Footer />
-      </Router>
+      {loading ? (
+        <h1>Loading</h1>
+      ) : (
+        <>
+          <Router>
+            <Navbar />
+            {isAuthenticated && <UserOptions user={user} />}
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/product/:id" element={<ProductDetails />} />
+              <Route exact path="/products" element={<Products />} />
+              <Route path="/products/:keyword" element={<Products />} />
+              <Route exact path="/search" element={<Search />} />
+              <Route exact path="/auth" element={<LoginSignup />} />
+            </Routes>
+            <Footer />
+          </Router>
+        </>
+      )}
     </>
   );
 }
