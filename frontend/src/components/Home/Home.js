@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Product from "../Product/Product";
-import Slider from "../Slider/Slider";
 import "./Home.css";
 import Pagehead from "../Pagehead";
 import { getProdcucts } from "../../actions/ProductAction";
@@ -9,7 +8,7 @@ import ReactLoading from "react-loading";
 
 function Home() {
   const dispatch = useDispatch();
-  const { loading, error, products } = useSelector((state) => state.products);
+  const { loading, products } = useSelector((state) => state.products);
 
   useEffect(() => {
     dispatch(getProdcucts());
@@ -27,7 +26,6 @@ function Home() {
       ) : (
         <div className="home-container">
           <Pagehead title="ECOMMERCE" />
-          <Slider />
           <div className="home-products-container">
             <h1>Featured Products</h1>
             <div className="home-products">

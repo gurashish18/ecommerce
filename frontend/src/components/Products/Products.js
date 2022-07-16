@@ -13,8 +13,9 @@ function Products() {
   const [price, setPrice] = useState([0, 200000]);
   const { keyword } = useParams();
   const dispatch = useDispatch();
-  const { loading, error, products, resultsperpage, productsCount } =
-    useSelector((state) => state.products);
+  const { loading, products, resultsperpage, productsCount } = useSelector(
+    (state) => state.products
+  );
 
   const setCurrentPageNo = (e) => {
     setCurrentPage(e);

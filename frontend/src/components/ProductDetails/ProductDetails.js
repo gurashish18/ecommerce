@@ -10,16 +10,14 @@ import Review from "../Review/Review";
 function ProductDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { loading, error, product } = useSelector(
-    (state) => state.productDetails
-  );
+  const { loading, product } = useSelector((state) => state.productDetails);
 
   console.log(product);
 
   // console.log(product);
   useEffect(() => {
     dispatch(getProdcuctDetails(id));
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   return (
     <>
