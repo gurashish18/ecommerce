@@ -1,7 +1,7 @@
 .user-speedDial {
-  position: fixed;
-  right: 1vmax;
-  top: 3vmax;
+  position: fixed !important;
+  right: 1vmax !important;
+  top: 3vmax !important;
 }
 
 .speedDialIcon {

@@ -55,6 +55,7 @@
 }
 .product-quantity input {
   font-size: 1.2rem;
+  text-align: center;
 }
 .addtocartbtn {
   text-align: center;

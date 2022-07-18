@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProductDetails.css";
 import Carousel from "react-material-ui-carousel";
 import StarRatings from "react-star-ratings";
@@ -6,18 +6,36 @@ import { getProdcuctDetails } from "../../actions/ProductAction";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import Review from "../Review/Review";
+import { addItemsToCart } from "../../actions/CartAction";
+import { useAlert } from "react-alert";
 
 function ProductDetails() {
+  const alert = useAlert();
+  const [quantity, setquantity] = useState(1);
   const { id } = useParams();
   const dispatch = useDispatch();
   const { loading, product } = useSelector((state) => state.productDetails);
 
-  console.log(product);
+  const decreaseQuantity = () => {
+    if (quantity <= 1) return;
+    let quant = quantity;
+    setquantity(quant - 1);
+  };
 
-  // console.log(product);
+  const increaseQuantity = () => {
+    if (product?.stock <= quantity) return;
+    let quant = quantity;
+    setquantity(quant + 1);
+  };
+
+  const addtocart = () => {
+    dispatch(addItemsToCart(id, quantity));
+    alert.success("Item Added to Cart");
+  };
+
   useEffect(() => {
     dispatch(getProdcuctDetails(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, quantity]);
 
   return (
     <>
@@ -57,16 +75,17 @@ function ProductDetails() {
 
               <div className="product-quantity">
                 <p>Enter quantity</p>
-                <button className="quantitybtn" onClick={() => {}}>
+                <button className="quantitybtn" onClick={decreaseQuantity}>
                   -
                 </button>
-                <input readOnly type="number" />
-                <button className="quantitybtn" onClick={() => {}}>
+                <input readOnly type="number" value={quantity} />
+                <button className="quantitybtn" onClick={increaseQuantity}>
                   +
                 </button>
               </div>
 
               <button
+                onClick={addtocart}
                 className="addtocartbtn"
                 disabled={product?.stock < 1 ? true : false}
               >
