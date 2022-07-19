@@ -33,12 +33,12 @@ const Cart = () => {
   };
 
   const checkoutHandler = () => {
-    navigate("/login?redirect=shipping");
+    navigate("/shipping");
   };
 
   useEffect(() => {
     if (!isAuthenticated) navigate("/auth");
-  }, []);
+  }, [dispatch, isAuthenticated]);
 
   return (
     <>

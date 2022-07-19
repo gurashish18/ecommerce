@@ -6,9 +6,10 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
 import { login, register } from "../../actions/UserAction";
 import { useAlert } from "react-alert";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function LoginSignup() {
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const alert = useAlert();
