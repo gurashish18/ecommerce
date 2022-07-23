@@ -25,6 +25,8 @@ import axios from "axios";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Payment from "./components/Payment/Payment";
+import MyOrders from "./components/MyOrders/MyOrders";
+import OrderDetails from "./components/OrderDetails/OrderDetails";
 
 function App() {
   const { loading, isAuthenticated, user } = useSelector((state) => state.user);
@@ -38,8 +40,7 @@ function App() {
   useEffect(() => {
     store.dispatch(loadUser());
     getStripeApiKey();
-    console.log(stripeApiKey);
-  }, []);
+  }, [store.dispatch]);
   return (
     <>
       {loading ? (
@@ -86,6 +87,10 @@ function App() {
               )}
 
               <Route exact path="/success" element={<OrderSuccess />} />
+
+              <Route exact path="/orders" element={<MyOrders />} />
+
+              <Route exact path="/order/:id" element={<OrderDetails />} />
             </Routes>
             <Footer />
           </Router>
