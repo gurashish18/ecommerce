@@ -10,7 +10,7 @@ function Product({ product }) {
       <h3>{product.name}</h3>
       <div className="rating">
         <StarRatings
-          rating={product.rating}
+          rating={product.ratings}
           starRatedColor="#FFD700"
           numberOfStars={5}
           name="rating"
